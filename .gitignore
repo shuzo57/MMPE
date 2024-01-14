@@ -1,2 +1,6 @@
 .venv
 .vscode
+*.egg-info 
+__pycache__
+
+models/*
