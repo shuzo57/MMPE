@@ -1,14 +1,15 @@
 import numpy as np
 from mmpe.mmpose_estimator import MMPoseEstimator
-
-BODY_IDX_START = 0
-BODY_IDX_END = 16
-FOOT_IDX_START = 17
-FOOT_IDX_END = 22
-FACE_IDX_START = 23
-FACE_IDX_END = 90
-HAND_IDX_START = 91
-HAND_IDX_END = 132
+from mmpe.wholebody_config import (
+    BODY_IDX_END,
+    BODY_IDX_START,
+    FACE_IDX_END,
+    FACE_IDX_START,
+    FOOT_IDX_END,
+    FOOT_IDX_START,
+    HAND_IDX_END,
+    HAND_IDX_START,
+)
 
 
 class WholeBodyEstimator(MMPoseEstimator):
