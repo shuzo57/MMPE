@@ -1,24 +1,24 @@
+import os
+
 import numpy as np
 from mmpe.mmpose_estimator import MMPoseEstimator
-from mmpe.wholebody_config import (
-    BODY_IDX_END,
-    BODY_IDX_START,
-    FACE_IDX_END,
-    FACE_IDX_START,
-    FOOT_IDX_END,
-    FOOT_IDX_START,
-    HAND_IDX_END,
-    HAND_IDX_START,
-)
+from mmpe.wholebody_config import IndexConfig, ModelConfig
 
+current_dir = os.path.dirname(os.path.abspath(__file__))
+parent_dir = os.path.dirname(current_dir)
+
+POSE_CONFIG = os.path.join(parent_dir, "models", ModelConfig.POSE_CONFIG)
+POSE_CHECKPOINT = os.path.join(parent_dir, "models", ModelConfig.POSE_CHECKPOINT)
+DET_CONFIG = os.path.join(parent_dir, "models", ModelConfig.DET_CONFIG)
+DET_CHECKPOINT = os.path.join(parent_dir, "models", ModelConfig.DET_CHECKPOINT)
 
 class WholeBodyEstimator(MMPoseEstimator):
     def __init__(
         self,
-        pose_config: str,
-        pose_checkpoint: str,
-        det_config: str,
-        det_checkpoint: str,
+        pose_config: str = POSE_CONFIG,
+        pose_checkpoint: str = POSE_CHECKPOINT,
+        det_config: str = DET_CONFIG,
+        det_checkpoint: str = DET_CHECKPOINT,
     ):
         super().__init__(
             pose_config, pose_checkpoint, det_config, det_checkpoint
@@ -37,7 +37,7 @@ class WholeBodyEstimator(MMPoseEstimator):
         if len(self.mmpose_results) == 0:
             return np.array([])
         return self.mmpose_results[obj_idx].pred_instances.keypoints[0][
-            BODY_IDX_START : BODY_IDX_END + 1  # noqa: E203
+            IndexConfig.BODY_IDX_START : IndexConfig.BODY_IDX_END + 1  # noqa: E203
         ]
 
     def get_foot_keypoints(self, obj_idx: int = 0) -> np.ndarray:
@@ -53,7 +53,7 @@ class WholeBodyEstimator(MMPoseEstimator):
         if len(self.mmpose_results) == 0:
             return np.array([])
         return self.mmpose_results[obj_idx].pred_instances.keypoints[0][
-            FOOT_IDX_START : FOOT_IDX_END + 1  # noqa: E203
+            IndexConfig.FOOT_IDX_START : IndexConfig.FOOT_IDX_END + 1  # noqa: E203
         ]
 
     def get_face_keypoints(self, obj_idx: int = 0) -> np.ndarray:
@@ -69,7 +69,7 @@ class WholeBodyEstimator(MMPoseEstimator):
         if len(self.mmpose_results) == 0:
             return np.array([])
         return self.mmpose_results[obj_idx].pred_instances.keypoints[0][
-            FACE_IDX_START : FACE_IDX_END + 1  # noqa: E203
+            IndexConfig.FACE_IDX_START : IndexConfig.FACE_IDX_END + 1  # noqa: E203
         ]
 
     def get_hand_keypoints(self, obj_idx: int = 0) -> np.ndarray:
@@ -85,5 +85,5 @@ class WholeBodyEstimator(MMPoseEstimator):
         if len(self.mmpose_results) == 0:
             return np.array([])
         return self.mmpose_results[obj_idx].pred_instances.keypoints[0][
-            HAND_IDX_START : HAND_IDX_END + 1  # noqa: E203
+            IndexConfig.HAND_IDX_START : IndexConfig.HAND_IDX_END + 1  # noqa: E203
         ]
